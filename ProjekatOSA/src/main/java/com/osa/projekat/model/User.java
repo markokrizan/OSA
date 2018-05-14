@@ -3,11 +3,18 @@ package com.osa.projekat.model;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -15,9 +22,12 @@ import javax.persistence.Table;
 @Table(name="users")
 public class User {
 	
+
+	
 	@Id
 	@GeneratedValue(strategy=IDENTITY)
-	@Column(name="id", unique=true, nullable=false)
+	//promenio zbog indijskog djubreta sa id na user_id
+	@Column(name="user_id", unique=true, nullable=false)
 	private Integer id;
 	
 	//length + string tip = varchar(length)
@@ -34,12 +44,43 @@ public class User {
 	@Column(name="photo", unique=false, nullable=false)
 	private String photo;
 	
-	
-	
-	
+
 	//VEZE
+	//Indijksa veza:
+	//1. USER ONE ------------- MANY ROLES
+	//Users, roles, user_roles su tabele
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+	
 	//1. USER ONE -------------- MANY POSTS
 	private ArrayList<Post> posts = new ArrayList<>();
+	
+	
+	public User() {
+		
+	}
+	
+	//konstruktor kopije za CustomUserDetails:
+	public User(User user) {
+		this.id = user.getId();
+		this.name = user.getName();
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+		this.photo = user.getPhoto();
+		//bez veza
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	//add i remove
 	//da se apdejtuje veza sa druge strane
@@ -126,6 +167,19 @@ public class User {
 	public void setComments(ArrayList<Comment> comments) {
 		this.comments = comments;
 	}
+	
+	
+	//Role:
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
+	
 	
 	
 	
