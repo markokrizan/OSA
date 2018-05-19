@@ -6,9 +6,8 @@ import com.osa.projekat.model.Post;
 
 public interface PostServiceInterface {
 	
-	//Read
-	List<Post> findAll();
 	
+	List<Post> findAll();
 	
 	
 	Post findOne(Integer postId);

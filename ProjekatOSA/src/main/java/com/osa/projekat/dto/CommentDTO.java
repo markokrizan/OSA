@@ -7,6 +7,7 @@ import com.osa.projekat.model.Comment;
 public class CommentDTO {
 	
 	Integer id;
+	String title;
 	String description;
 	Date date;
 	Integer likes;
@@ -18,10 +19,11 @@ public class CommentDTO {
 		super();
 	}
 
-	public CommentDTO(Integer id, String description, Date date, Integer likes, Integer dislikes, PostDTO post,
+	public CommentDTO(Integer id, String title, String description, Date date, Integer likes, Integer dislikes, PostDTO post,
 			UserDTO user) {
 		super();
 		this.id = id;
+		this.title = title;
 		this.description = description;
 		this.date = date;
 		this.likes = likes;
@@ -31,7 +33,7 @@ public class CommentDTO {
 	}
 	
 	public CommentDTO(Comment comment) {
-		this(comment.getId(), comment.getDescription(), comment.getDate(), comment.getLikes(), comment.getDislikes(),
+		this(comment.getId(), comment.getTitle(), comment.getDescription(), comment.getDate(), comment.getLikes(), comment.getDislikes(),
 				new PostDTO(comment.getPost()), new UserDTO(comment.getUser()));
 		
 	}
@@ -42,6 +44,15 @@ public class CommentDTO {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDescription() {

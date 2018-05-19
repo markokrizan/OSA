@@ -1,0 +1,41 @@
+package com.osa.projekat.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.osa.projekat.model.User;
+import com.osa.projekat.repository.UserRepository;
+
+@Service
+public class UserService implements UserServiceInterface {
+	
+	@Autowired
+	UserRepository userRepository;
+
+	@Override
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
+
+	@Override
+	public User findOne(Integer userId) {
+		return userRepository.getOne(userId);
+	}
+
+	@Override
+	public User save(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void remove(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}

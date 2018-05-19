@@ -1,6 +1,7 @@
 package com.osa.projekat.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,7 @@ public class PostService implements PostServiceInterface {
 
 	@Override
 	public Post findOne(Integer postId) {
-		// TODO Auto-generated method stub
-		return null;
+		return postRepository.getOne(postId);
 	}
 
 	@Override
