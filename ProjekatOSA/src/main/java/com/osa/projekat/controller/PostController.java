@@ -123,23 +123,4 @@ public class PostController {
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
