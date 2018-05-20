@@ -26,13 +26,12 @@ public class CommentService implements CommentServiceInterface {
 
 	@Override
 	public Comment save(Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
+		return commentRepository.save(comment);
 	}
 
 	@Override
 	public void remove(Integer id) {
-		// TODO Auto-generated method stub
+		commentRepository.deleteById(id);
 		
 	}
 	

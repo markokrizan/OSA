@@ -78,17 +78,19 @@ public class CommentController {
 		Comment comment = commentService.findOne(id);
 		if (comment == null) {
 			return new ResponseEntity<CommentDTO>(HttpStatus.BAD_REQUEST);
+		}else {
+			comment.setTitle(commentDTO.getTitle());
+			comment.setDescription(commentDTO.getDescription());
+			comment.setDate(commentDTO.getDate());
+			comment.setLikes(commentDTO.getLikes());
+			comment.setDislikes(commentDTO.getDislikes());
+			comment.setUser(userService.findOne(commentDTO.getUser().getId()));
+			comment.setPost(postService.findOne(commentDTO.getPost().getId()));
+			
+			comment = commentService.save(comment);
+			return new ResponseEntity<CommentDTO>(new CommentDTO(comment), HttpStatus.CREATED);
 		}
-		comment.setTitle(commentDTO.getTitle());
-		comment.setDescription(commentDTO.getDescription());
-		comment.setDate(commentDTO.getDate());
-		comment.setLikes(commentDTO.getLikes());
-		comment.setDislikes(commentDTO.getDislikes());
-		comment.setUser(userService.findOne(commentDTO.getUser().getId()));
-		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
 		
-		comment = commentService.save(comment);
-		return new ResponseEntity<CommentDTO>(new CommentDTO(comment), HttpStatus.CREATED);
 		
 		
 		

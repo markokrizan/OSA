@@ -30,13 +30,12 @@ public class PostService implements PostServiceInterface {
 
 	@Override
 	public Post save(Post post) {
-		// TODO Auto-generated method stub
-		return null;
+		return postRepository.save(post);
 	}
 
 	@Override
 	public void remove(Integer id) {
-		// TODO Auto-generated method stub
+		postRepository.deleteById(id);
 		
 	}
 
