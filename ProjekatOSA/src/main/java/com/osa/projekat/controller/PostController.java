@@ -16,9 +16,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.osa.projekat.dto.CommentDTO;
 import com.osa.projekat.dto.PostDTO;
+import com.osa.projekat.dto.TagDTO;
+import com.osa.projekat.model.Comment;
 import com.osa.projekat.model.Post;
+import com.osa.projekat.model.Tag;
+import com.osa.projekat.service.CommentServiceInterface;
 import com.osa.projekat.service.PostServiceInterface;
+import com.osa.projekat.service.TagServiceInterface;
 import com.osa.projekat.service.UserServiceInterface;
 
 @RestController
@@ -32,10 +38,16 @@ public class PostController {
 	@Autowired
 	private UserServiceInterface userService;
 	
+	@Autowired
+	private CommentServiceInterface commentService;
+	
+	@Autowired
+	private TagServiceInterface tagService;
+	
 	//vrati sve postove
 	//samo zadata rola moze da udje
 	
-	//CREATE
+	
 	@GetMapping
 	public ResponseEntity<List<PostDTO>> getPosts() {
 		List<Post> posts = postService.findAll();
@@ -63,6 +75,33 @@ public class PostController {
 			return new ResponseEntity<PostDTO>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<PostDTO>(new PostDTO(post), HttpStatus.OK);
+		
+	}
+	
+	//Komentari posta:
+	@GetMapping(value = "/{id}/comments")
+	public ResponseEntity<List<CommentDTO>> getPostComments(@PathVariable("id") Integer id){
+		List<Comment> comments = commentService.findByPostId(id);
+		//convert categories to DTOs
+		List<CommentDTO> commentsDTO = new ArrayList<CommentDTO>();
+		for (Comment c : comments) {
+			commentsDTO.add(new CommentDTO(c));
+		}
+		//vraca listu dto gotovih objekata spremnih za front
+		return new ResponseEntity<List<CommentDTO>>(commentsDTO, HttpStatus.OK);
+		
+		
+	}
+	
+	//Tagovi posta:
+	@GetMapping(value = "/{id}/tags")
+	public ResponseEntity<List<TagDTO>> getPostTags(@PathVariable("id") Integer id){
+		List<Tag> tags = tagService.findByPostId(id);
+		List<TagDTO> tagsDTO = new ArrayList<TagDTO>();
+		for (Tag t : tags) {
+			tagsDTO.add(new TagDTO(t));
+		}
+		return new ResponseEntity<List<TagDTO>>(tagsDTO, HttpStatus.OK);
 		
 	}
 	

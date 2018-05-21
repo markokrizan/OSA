@@ -1,5 +1,6 @@
 package com.osa.projekat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class TagService implements TagServiceInterface {
 	@Override
 	public List<Tag> findAll() {
 		return tagRepository.findAll();
+	}
+	
+	@Override
+	public List<Tag> findByPostId(Integer postId){
+		return new ArrayList<>(tagRepository.findByPostId(postId));
 	}
 
 	@Override

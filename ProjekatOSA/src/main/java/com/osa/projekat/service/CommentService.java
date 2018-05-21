@@ -1,5 +1,6 @@
 package com.osa.projekat.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,11 @@ public class CommentService implements CommentServiceInterface {
 	@Override
 	public List<Comment> findAll() {
 		return commentRepository.findAll();
+	}
+	
+	@Override
+	public List<Comment> findByPostId(Integer postId){
+		return new ArrayList<>(commentRepository.findByPostId(postId));
 	}
 
 	@Override

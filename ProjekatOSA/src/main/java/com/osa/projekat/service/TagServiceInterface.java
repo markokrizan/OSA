@@ -9,6 +9,9 @@ public interface TagServiceInterface {
 	List<Tag> findAll();
 	
 	
+	List<Tag> findByPostId(Integer postId);
+	
+	
 	Tag findOne(Integer tagId);
 	
 

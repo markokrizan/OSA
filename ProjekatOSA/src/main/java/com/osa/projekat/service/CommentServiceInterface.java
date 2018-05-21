@@ -9,6 +9,9 @@ public interface CommentServiceInterface {
 	List<Comment> findAll();
 	
 	
+	List<Comment> findByPostId(Integer postId);
+	
+	
 	Comment findOne(Integer commentId);
 	
 
