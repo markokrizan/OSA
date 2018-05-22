@@ -28,7 +28,7 @@ import com.osa.projekat.service.TagServiceInterface;
 import com.osa.projekat.service.UserServiceInterface;
 
 @RestController
-@RequestMapping(value="news-api/posts")
+@RequestMapping(value="news-api/posts/")
 public class PostController {
 	
 	//polje servisnog interfejsa
@@ -51,6 +51,7 @@ public class PostController {
 	@GetMapping
 	public ResponseEntity<List<PostDTO>> getPosts() {
 		List<Post> posts = postService.findAll();
+		System.out.println("posts " + posts);
 		//convert categories to DTOs
 		List<PostDTO> postsDTO = new ArrayList<PostDTO>();
 		for (Post p : posts) {
@@ -68,7 +69,7 @@ public class PostController {
 	
 	
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "{id}")
 	public ResponseEntity<PostDTO> getPost(@PathVariable("id") Integer id){
 		Post post = postService.findOne(id);
 		if(post == null) {
@@ -79,7 +80,7 @@ public class PostController {
 	}
 	
 	//Komentari posta:
-	@GetMapping(value = "/{id}/comments")
+	@GetMapping(value = "{id}/comments")
 	public ResponseEntity<List<CommentDTO>> getPostComments(@PathVariable("id") Integer id){
 		List<Comment> comments = commentService.findByPostId(id);
 		//convert categories to DTOs
@@ -94,7 +95,7 @@ public class PostController {
 	}
 	
 	//Tagovi posta:
-	@GetMapping(value = "/{id}/tags")
+	@GetMapping(value = "{id}/tags")
 	public ResponseEntity<List<TagDTO>> getPostTags(@PathVariable("id") Integer id){
 		List<Tag> tags = tagService.findByPostId(id);
 		List<TagDTO> tagsDTO = new ArrayList<TagDTO>();
@@ -125,7 +126,7 @@ public class PostController {
 	}
 	
 	//UPDATE
-	@PutMapping(value = "/{id}", consumes = "application/json")
+	@PutMapping(value = "{id}", consumes = "application/json")
 	public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO, @PathVariable("id") Integer id){
 		Post post = postService.findOne(id);
 		if (post == null) {
@@ -176,7 +177,7 @@ public class PostController {
 	
 	
 	//DELETE
-	@DeleteMapping(value = "/{id}")
+	@DeleteMapping(value = "{id}")
 	public ResponseEntity<Void> deletePost(@PathVariable("id") Integer id){
 		Post post = postService.findOne(id);
 		if(post != null) {
