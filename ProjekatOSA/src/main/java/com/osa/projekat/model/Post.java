@@ -47,20 +47,20 @@ public class Post implements Serializable{
 	private String photo;
 	
 	//java.util.date! vidi da li ce bolje biti sa sql.date
-	@Column(name="post_date", unique=false, nullable=false)
+	@Column(name="post_date", unique=false, nullable=true)
 	private Date date;
 	
 	//default-na vrednost 0 i za lajk i dislajk
 	@Column(name="likes", unique=false, nullable=false, columnDefinition = "int default 0")
 	private Integer likes;
-	
+	 
 	@Column(name="dislikes", unique=false, nullable=false, columnDefinition = "int default 0")
 	private Integer dislikes;
 	
-	@Column(name="longitude", unique=false, nullable=false)
+	@Column(name="longitude", unique=false, nullable=true)
 	private Float longitude;
 	
-	@Column(name="latitude", unique=false, nullable=false)
+	@Column(name="latitude", unique=false, nullable=true)
 	private Float latitude;
 	
 	//VEZE

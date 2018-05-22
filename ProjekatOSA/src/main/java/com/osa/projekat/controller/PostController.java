@@ -146,9 +146,30 @@ public class PostController {
 		}
 		
 		
-		
-		
 	}
+	
+	
+	//LAJKUJ/DISLAJKUJ
+	@PutMapping(value = "{{id}/{ld}")
+	public ResponseEntity<Void> updatePopularity(@PathVariable("id") Integer id, @PathVariable("ld") String ld){
+		Post post = postService.findOne(id);
+		if(post != null) {
+			if(ld.equals("like")) {
+				post.setLikes(post.getLikes() + 1);
+				post = postService.save(post);
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			}else if(ld.equals("dislike")) {
+				post.setLikes(post.getLikes() - 1);
+				post = postService.save(post);
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			}else {
+				return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			}
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	
 	//DELETE
 	@DeleteMapping(value = "/{id}")

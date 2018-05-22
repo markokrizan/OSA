@@ -96,6 +96,29 @@ public class CommentController {
 		
 	}
 	
+	
+	@PutMapping(value = "{{id}/{ld}")
+	public ResponseEntity<Void> updatePopularity(@PathVariable("id") Integer id, @PathVariable("ld") String ld){
+		Comment comment = commentService.findOne(id);
+		if(comment != null) {
+			if(ld.equals("like")) {
+				comment.setLikes(comment.getLikes() + 1);
+				comment = commentService.save(comment);
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			}else if(ld.equals("dislike")) {
+				comment.setLikes(comment.getLikes() - 1);
+				comment = commentService.save(comment);
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			}else {
+				return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			}
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> deletePost(@PathVariable("id") Integer id){
 		Comment comment = commentService.findOne(id);
