@@ -58,10 +58,10 @@ public class Post implements Serializable{
 	private Integer dislikes;
 	
 	@Column(name="longitude", unique=false, nullable=true)
-	private Float longitude;
+	private Double longitude;
 	
 	@Column(name="latitude", unique=false, nullable=true)
-	private Float latitude;
+	private Double latitude;
 	
 	//VEZE
 	
@@ -202,19 +202,19 @@ public class Post implements Serializable{
 		this.dislikes = dislikes;
 	}
 
-	public Float getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
-	public Float getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 

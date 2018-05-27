@@ -150,6 +150,29 @@ public class PostController {
 	}
 	
 	
+	@PostMapping(value = "{id}/comment", consumes = "application/json")
+	public ResponseEntity<CommentDTO> commentPost(@PathVariable("id") Integer id, @RequestBody CommentDTO commentDTO){
+		Post post = postService.findOne(id);
+		Comment comment = new Comment();
+		if (post == null) {
+			return new ResponseEntity<CommentDTO>(HttpStatus.BAD_REQUEST);
+		}else {
+			comment.setTitle(commentDTO.getTitle());
+			comment.setDescription(commentDTO.getDescription());
+			comment.setDate(commentDTO.getDate());
+			comment.setLikes(commentDTO.getLikes());
+			comment.setDislikes(commentDTO.getDislikes());
+			comment.setUser(userService.findOne(commentDTO.getUser().getId()));
+			comment.setPost(postService.findOne(post.getId()));
+			
+			post.getComments().add(comment);
+			comment = commentService.save(comment);
+			post = postService.save(post);
+			return new ResponseEntity<CommentDTO>(new CommentDTO(comment), HttpStatus.CREATED);
+		}
+	}
+	
+	
 	
 	@PutMapping(value = "{id}/like")
 	public ResponseEntity<Void> like(@PathVariable("id") Integer id){

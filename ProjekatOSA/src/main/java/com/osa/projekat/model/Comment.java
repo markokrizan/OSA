@@ -30,13 +30,13 @@ public class Comment {
 	@Column(name="description", unique=false, nullable=false)
 	private String description;
 	
-	@Column(name="comment_date", unique=false, nullable=false)
+	@Column(name="comment_date", unique=false, nullable=true)
 	private Date date;
 	
-	@Column(name="likes", unique=false, nullable=false)
+	@Column(name="likes", unique=false, nullable=true, columnDefinition = "int default 0")
 	private Integer likes;
 	
-	@Column(name="dislikes", unique=false, nullable=false)
+	@Column(name="dislikes", unique=false, nullable=true, columnDefinition = "int default 0")
 	private Integer dislikes;
 	
 	//veze

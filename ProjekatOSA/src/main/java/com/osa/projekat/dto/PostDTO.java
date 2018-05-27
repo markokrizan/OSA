@@ -17,8 +17,8 @@ public class PostDTO implements Serializable{
 	private Date date;
 	private Integer likes;
 	private Integer dislikes;
-	private Float longitude;
-	private Float latitude;
+	private Double longitude;
+	private Double latitude;
 	private UserDTO user;
 	
 	public PostDTO() {
@@ -26,7 +26,7 @@ public class PostDTO implements Serializable{
 	}
 
 	public PostDTO(Integer id, String title, String description, String photo, Date date, Integer likes,
-			Integer dislikes, Float longitude, Float latitude, UserDTO user) {
+			Integer dislikes, Double longitude, Double latitude, UserDTO user) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -103,19 +103,19 @@ public class PostDTO implements Serializable{
 		this.dislikes = dislikes;
 	}
 
-	public Float getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(Float longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
-	public Float getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(Float latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
