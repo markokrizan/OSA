@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 function getQueryVariable()
 {
-       var query = window.location.search.substring(1);
-       var vars = query.split("/");
-       return vars[vars.length-1];
+       const url = window.location.href;
+       const urlSplit = url.split("/");
+       return urlSplit[urlSplit.length-1];
 }

@@ -21,7 +21,8 @@ public class FrontController {
 
 	@RequestMapping("/test/{id}")
 	public String test(@PathVariable("id") String id) {
-		//ovde je provera ustvari da li ga ima pa ako ga nema onda error 
+		//ovde je provera ustvari da li ga ima pa ako ga nema onda error
+		
         return "testPage";
 	}
 	
