@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class FrontController implements ErrorController {
 	
+	//---------------------------------------------
+	@RequestMapping("/test")
+	public String test() {
+		return "test";
+	}
+	//---------------------------------------------
+	
 	
 	
 	
@@ -21,13 +28,20 @@ public class FrontController implements ErrorController {
 	}
 	
 	
-	@RequestMapping("/test")
-	public String test() {
-		return "test";
+	@RequestMapping("/modals")
+	public String modals() {
+		return "modals";
+	}
+	
+	
+	@RequestMapping("/nav")
+	public String nav() {
+		return "navigation";
 	}
 	
 	
 	
+
 	@RequestMapping("/post/{id}")
 	public String post(@PathVariable("id") String id) {
 		//proveru radi na frontu jer je ovo namenjeno da bude posebna aplikacija	

@@ -21,7 +21,7 @@ import com.osa.projekat.model.Tag;
 import com.osa.projekat.service.TagServiceInterface;
 
 @RestController
-@RequestMapping(value = "news-api/tags")
+@RequestMapping(value = "news-api/tags/")
 public class TagController {
 
 	@Autowired
@@ -39,7 +39,7 @@ public class TagController {
 		return new ResponseEntity<List<TagDTO>>(tagsDTO, HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "{id}")
 	public ResponseEntity<TagDTO> getPost(@PathVariable("id") Integer id){
 		Tag tag = tagService.findOne(id);
 		if(tag == null) {
@@ -50,7 +50,7 @@ public class TagController {
 	}
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<TagDTO> savePost(@RequestBody TagDTO tagDTO){
+	public ResponseEntity<TagDTO> saveTag(@RequestBody TagDTO tagDTO){
 		Tag tag = new Tag();
 		tag.setName(tagDTO.getName());
 		
@@ -60,8 +60,8 @@ public class TagController {
 		
 	}
 	
-	@PutMapping(value = "/{id}", consumes = "application/json")
-	public ResponseEntity<TagDTO> savePost(@RequestBody TagDTO tagDTO, @PathVariable("id") Integer id){
+	@PutMapping(value = "{id}", consumes = "application/json")
+	public ResponseEntity<TagDTO> updateTag(@RequestBody TagDTO tagDTO, @PathVariable("id") Integer id){
 		Tag tag = tagService.findOne(id);
 		if (tag == null) {
 			return new ResponseEntity<TagDTO>(HttpStatus.BAD_REQUEST);
@@ -75,8 +75,8 @@ public class TagController {
 		
 	}
 	
-	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<Void> deletePost(@PathVariable("id") Integer id){
+	@DeleteMapping(value = "{id}")
+	public ResponseEntity<Void> deleteTag(@PathVariable("id") Integer id){
 		Tag tag = tagService.findOne(id);
 		if(tag != null) {
 			tagService.remove(id);

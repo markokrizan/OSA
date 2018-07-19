@@ -45,7 +45,6 @@ function sendData(url, methodType, object_to_send, callback){
 }
 
 //Error function for every request
-
 function showError(){
 	window.location.href = "http://localhost:8080/error";
 }
@@ -71,7 +70,20 @@ function sendablePost(title, description, photo, date, likes, dislikes, logitude
 
 }
 
-function sendableComment(){
+function sendableComment(title, description, date, likes, dislikes, post, user){
+	return JSON.stringify({
+		"title": title,
+		"description" : description,
+		"date" : date,
+		"likes" : likes,
+		"dislikes" : dislikes,
+		"post":{
+			id : post
+		},
+		"user" : {
+			id : user
+		}
+	});
 
 }
 
