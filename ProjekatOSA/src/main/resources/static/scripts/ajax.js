@@ -11,6 +11,13 @@ var URLGetPostTags = function(id) { return URLGetPosts + id + "/tags/"};
 var URLCreatePost = URLGetPosts;
 var URLEditPost = function(id) { return URLGetPosts + id};
 
+var URLLikePost = function(id) {return URLGetPosts + id + "/like"};
+var URLUnlikePost = function(id) {return URLGetPosts + id + "/unlike"};
+
+var URLDislikePost = function(id) {return URLGetPosts + id + "/dislike"};
+var URLUndislikePost = function(id) {return URLGetPosts + id + "/undislike"};
+
+
 //comment
 var URLGetComments = basePath + "comments/";
 var URLGetComment = function(id) {return URLGetComments + id};
@@ -30,6 +37,17 @@ function makeCall(url, methodType, callback){
     dataType : "json"
  })
 }
+
+//Ajax when no json is expected, just status code, for liking disliking...
+//Spagheti
+function makeCallNoJSON(url, methodType, callback){
+	 return $.ajax({
+	    url : url,
+	    method : methodType,
+	 })
+}
+
+
 
 function sendData(url, methodType, object_to_send, callback){
 	return $.ajax({
@@ -126,7 +144,7 @@ function getQueryVariable()
 makeCall(URLPosts, "GET").then(function(respJson){
  console.log(respJson)
 }, function(reason){
- showError("Greska", reason.status);
+ showError();
 });
 
 //post:

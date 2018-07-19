@@ -186,11 +186,36 @@ public class PostController {
 		}
 	}
 	
+	
+	@PutMapping(value = "{id}/unlike")
+	public ResponseEntity<Void> unlike(@PathVariable("id") Integer id){
+		Post post = postService.findOne(id);
+		if(post != null) {
+			post.setLikes(post.getLikes() - 1);
+			post = postService.save(post);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@PutMapping(value = "{id}/dislike")
 	public ResponseEntity<Void> dislike(@PathVariable("id") Integer id){
 		Post post = postService.findOne(id);
 		if(post != null) {
 			post.setDislikes(post.getDislikes() + 1);
+			post = postService.save(post);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping(value = "{id}/undislike")
+	public ResponseEntity<Void> undislike(@PathVariable("id") Integer id){
+		Post post = postService.findOne(id);
+		if(post != null) {
+			post.setDislikes(post.getDislikes() - 1);
 			post = postService.save(post);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}else {

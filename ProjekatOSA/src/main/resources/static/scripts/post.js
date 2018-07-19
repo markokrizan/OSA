@@ -1,3 +1,7 @@
+var liked = 0;
+var disliked = 0;
+
+
 $(document).ready(function(){
 	
 	var postId = getQueryVariable()
@@ -39,6 +43,15 @@ $(document).ready(function(){
 	});
 	
 	
+	//like/dislike
+	
+	$("#dislajkujBtn").click(function() {
+		dislikePost();
+	});
+	
+	$("#lajkujBtn").click(function() {
+		likePost();
+	});
 	
 	
 	
@@ -56,6 +69,14 @@ function fillPost(naslov, opis, datum, broj_lajkova, broj_dislajkova){
 
 function fillBrojKomentara(brojKomentara){
 	$("#brojKomentara").html(brojKomentara);
+}
+
+function fillPostBrojLajkova(brojLajkova){
+	$("#brojLajkova").html(brojLajkova);
+}
+
+function fillPostBrojDislajkova(brojDislajkova){
+	$("#brojDislajkova").html(brojDislajkova);
 }
 
 function fillComments(comment){
@@ -83,10 +104,60 @@ function fillTags(tags){
 }
 
 function likePost(){
+	if(liked === 0){
+		let url = URLLikePost(getQueryVariable());
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			let brojLajkovaUpdate = parseInt($("#brojLajkova").text()) + 1;
+			fillPostBrojLajkova(brojLajkovaUpdate);
+			liked += 1;
+			//$("#lajkujBtn").addClass("disabled");
+		}, function(reason){
+			showError();
+		});
+	}else if(liked === 1){
+		let url = URLUnlikePost(getQueryVariable());
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			let brojLajkovaUpdate = parseInt($("#brojLajkova").text()) - 1;
+			fillPostBrojLajkova(brojLajkovaUpdate);
+			liked -= 1;
+		}, function(reason){
+			showError();
+		});
+	}
+	
+	
+	
 	
 }
 
 function dislikePost(){
+	if(disliked === 0){
+		let url = URLDislikePost(getQueryVariable());
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			let brojDislajkovaUpdate = parseInt($("#brojDislajkova").text()) + 1;
+			fillPostBrojDislajkova(brojDislajkovaUpdate);
+			disliked += 1;
+			//$("#lajkujBtn").addClass("disabled");
+		}, function(reason){
+			showError();
+		});
+	}else if(disliked === 1){
+		let url = URLUndislikePost(getQueryVariable());
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			let brojDislajkovaUpdate = parseInt($("#brojDislajkova").text()) - 1;
+			fillPostBrojDislajkova(brojDislajkovaUpdate);
+			disliked -= 1;
+		}, function(reason){
+			showError();
+		});
+	}
+}
+
+function likeComment(){
+	
+}
+
+function dislikeComment(){
 	
 }
 
