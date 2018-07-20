@@ -108,11 +108,35 @@ public class CommentController {
 		}
 	}
 	
+	@PutMapping(value = "{id}/unlike")
+	public ResponseEntity<Void> unlike(@PathVariable("id") Integer id){
+		Comment comment = commentService.findOne(id);
+		if(comment != null) {
+			comment.setLikes(comment.getLikes() - 1);
+			comment = commentService.save(comment);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@PutMapping(value = "{id}/dislike")
 	public ResponseEntity<Void> dislike(@PathVariable("id") Integer id){
 		Comment comment = commentService.findOne(id);
 		if(comment != null) {
 			comment.setDislikes(comment.getDislikes() + 1);
+			comment = commentService.save(comment);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping(value = "{id}/undislike")
+	public ResponseEntity<Void> undislike(@PathVariable("id") Integer id){
+		Comment comment = commentService.findOne(id);
+		if(comment != null) {
+			comment.setDislikes(comment.getDislikes() - 1);
 			comment = commentService.save(comment);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}else {

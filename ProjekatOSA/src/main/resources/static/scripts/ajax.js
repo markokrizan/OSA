@@ -24,6 +24,12 @@ var URLGetComment = function(id) {return URLGetComments + id};
 var URLCreateComment = URLGetComments;
 var URLEditComment = function(id) {return URLGetComments + id};
 
+var URLLikeComment = function(id) {return URLGetComments + id + "/like"};
+var URLUnlikeComment = function(id) {return URLGetComments + id + "/unlike"};
+
+var URLDislikeComment = function(id) {return URLGetComments + id + "/dislike"};
+var URLUndislikeComment = function(id) {return URLGetComments + id + "/undislike"};
+
 
 
 

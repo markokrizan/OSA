@@ -2,6 +2,7 @@ var liked = 0;
 var disliked = 0;
 
 
+
 $(document).ready(function(){
 	
 	var postId = getQueryVariable()
@@ -79,16 +80,26 @@ function fillPostBrojDislajkova(brojDislajkova){
 	$("#brojDislajkova").html(brojDislajkova);
 }
 
+function fillCommentBrojLajkova(element, brojLajkova){
+	$(element).find("span").html(brojLajkova);
+}
+
+function fillCommentBrojDislajkova(element, brojDislajkova){
+	$(element).find("span").html(brojLajkova);
+}
+
+
+
 function fillComments(comment){
 	$("#komentari").append(
 	'<div class="card-body">'+
 	    '<small class="text-muted">'+ comment.date +'</small>'+
 	    '<h4>'+ comment.title +'</h4>'+
 	    '<p>'+ comment.description +'</p>'+
-	    '<a class="btn pull-right btn-danger btn-lg" href="#">'+
-	      '<i class="fa fa-thumbs-down"> </i> ' + comment.dislikes + ' </a>'+
-	    '<a class="btn pull-right btn-success btn-lg" href="#">'+
-	      '<i class="fa fa-thumbs-up"> </i> '+ comment.likes +' </a>'+
+	    '<a onclick="dislikeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-danger btn-lg">'+
+	      '<i class="fa fa-thumbs-down"> </i> &nbsp; <span> ' + comment.dislikes + '</span> </a>'+
+	    '<a onclick = "likeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-success btn-lg">'+
+	      '<i class="fa fa-thumbs-up"> </i> &nbsp; <span> '+ comment.likes +'</span> </a>'+
     '</div>'
     );
 
@@ -153,12 +164,62 @@ function dislikePost(){
 	}
 }
 
-function likeComment(){
-	
+function likeComment(element, id){
+	if(element.dataset.clicked === "0"){
+		let url = URLLikeComment(id);
+		
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			
+			let brojLajkovaUpdate = parseInt($(element).find("span").text()) + 1;
+			fillCommentBrojLajkova(element, brojLajkovaUpdate);
+			element.dataset.clicked = "1";
+			
+		}, function(reason){
+			showError();
+		});
+	}else if(element.dataset.clicked === "1"){
+		let url = URLUnlikeComment(id);
+		
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			
+			let brojLajkovaUpdate = parseInt($(element).find("span").text()) - 1;
+			fillCommentBrojLajkova(element, brojLajkovaUpdate);
+			element.dataset.clicked = "0";
+			
+		}, function(reason){
+			showError();
+		});
+	}
 }
 
-function dislikeComment(){
+function dislikeComment(element, id){
+	if(element.dataset.clicked === "0"){
+		let url = URLDislikeComment(id);
+		
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			
+			let brojDislajkovaUpdate = parseInt($(element).find("span").text()) + 1;
+			fillCommentBrojLajkova(element, brojDislajkovaUpdate);
+			element.dataset.clicked = "1";
+			
+		}, function(reason){
+			showError();
+		});
+	}else if(element.dataset.clicked === "1"){
+		let url = URLUndislikeComment(id);
 	
+		makeCallNoJSON(url, "PUT").then(function(respJson){
+			
+			let brojDislajkovaUpdate = parseInt($(element).find("span").text()) - 1;
+			fillCommentBrojLajkova(element, brojDislajkovaUpdate);
+			element.dataset.clicked = "0";
+			
+		}, function(reason){
+			showError();
+		});
+	}
 }
+
+
 
 
