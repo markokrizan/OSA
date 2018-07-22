@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
   <link rel="stylesheet" href="https://v40.pingendo.com/assets/4.0.0/default/theme.css" type="text/css"> 
   <script type="text/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript" src="/scripts/controller.js"></script>
   <script type="text/javascript" src="/scripts/ajax.js"></script>
   <script type="text/javascript" src="/scripts/post.js"></script>
   <script type="text/javascript" src="/scripts/modal.js"></script>
@@ -65,8 +66,10 @@
           <div class="dropdown">
             <button class="btn dropdown-toggle btn-info" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton"> Sortiraj po </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Datumu</a>
-              <a class="dropdown-item" href="#">Popularnosti</a>
+              <a class="dropdown-item" id = "sortDatumUzlazno">Datumu - uzlazno</a>
+              <a class="dropdown-item" id = "sortDatumSilazno">Datumu - silazno</a>
+              <a class="dropdown-item" id = "sortPopularnostUzlazno" >Popularnosti - uzlazno</a>
+              <a class="dropdown-item" id = "sortPopularnostSilazno" >Popularnosti - silazno</a>
             </div>
           </div>
         </div>
@@ -77,9 +80,9 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <div id = "komentari" class="card">
+          <div  class="card">
             <div class="card-header"> Komentari:</div>
-            
+            	<div id = "komentari"></div>
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ public class CommentDTO {
 	
 	public CommentDTO(Comment comment) {
 		this(comment.getId(), comment.getTitle(), comment.getDescription(), comment.getDate(), comment.getLikes(), comment.getDislikes(),
-				new PostDTO(comment.getPost()), new UserDTO(comment.getUser()));
+				new PostDTO(comment.getPost(), comment.getPost().getComments().size()), new UserDTO(comment.getUser()));
 		
 	}
 

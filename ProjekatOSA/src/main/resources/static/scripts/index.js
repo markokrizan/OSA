@@ -1,39 +1,87 @@
+//kesiraj za sortiranje
+var loadedPosts = null;
+
 $(document).ready(function(){
 	
+	//initial
 	makeCall(URLGetPosts, "GET").then(function(respJson){
-	 $.each(respJson, function (index, post) {
-           showPosts(post);
-     })
+	 loadedPosts = respJson;
+	 showPosts(respJson);
 	}, function(reason){
 	 showError();
 	});
-
 	
 	
-
+	//sort:
+	$("#sortDatumUzlazno").click(function() {
+		sortirajDatum(loadedPosts, "uzlazno");
+		showPosts(loadedPosts);
+			
+	});
+	
+	$("#sortDatumSilazno").click(function() {
+		sortirajDatum(loadedPosts, "silazno");
+		showPosts(loadedPosts);
+		
+	});
+	
+	$("#sortBrojKomentaraUzlazno").click(function() {
+		sortirajNumericko(loadedPosts, "uzlazno", "numberOfComments");
+		showPosts(loadedPosts);
+	});
+	
+	$("#sortBrojKomentaraSilazno").click(function() {
+		sortirajNumericko(loadedPosts, "silazno", "numberOfComments");
+		showPosts(loadedPosts);
+	});
+	
+	$("#sortPopularnostUzlazno").click(function() {
+		sortirajNumericko(loadedPosts, "uzlazno", "likes");
+		showPosts(loadedPosts);
+		
+	});
+	
+	$("#sortPopularnostSilazno").click(function() {
+		sortirajNumericko(loadedPosts, "silazno", "likes");
+		showPosts(loadedPosts);
+	});
 
 });
 
 
 
-function showPosts(post){
-	var x = '<div class="py-5">'+
-		    '<div class="container">'+
-		      '<div class="row">'+
-		        '<div class="col-md-5 order-2 order-md-1">'+
-		          '<img class="img-fluid d-block" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg"> </div>'+
-		        '<div class="col-md-7 order-1 order-md-2">'+
-		          '<h3>'+ post.title +'</h3>'+
-		          '<p class="my-3 w-100 h-25">'+ post.description +'</p>'+
-		          '<div class="row">'+
-		            '<div class="col-md-12">'+
-		              '<a class="btn mx-auto pull-right btn-info" href="http://localhost:8080/post/'+ post.id +'">Detalji</a>'+
-		            '</div>'+
-		          '</div>'+
-		        '</div>'+
-		      '</div>'+
-		    '</div>'+
-		  '</div>';
-	$('body').append(x);
+function showPosts(posts){
+	$("#posts").empty();
+	$.each(posts, function (index, post) {
+		$('#posts').append( '<div class="py-5">'+
+			    '<div class="container">'+
+			      '<div class="row">'+
+			        '<div class="col-md-5 order-2 order-md-1">'+
+			          '<img class="img-fluid d-block" src="https://pingendo.com/assets/photos/wireframe/photo-1.jpg"> </div>'+
+			        '<div class="col-md-7 order-1 order-md-2">'+
+			          '<h3>'+ post.title +'</h3>'+
+			          '<p class="my-3 w-100 h-25">'+ post.description +'</p>'+
+			          '<div class="row">'+
+			            '<div class="col-md-12">'+
+			              '<a class="btn mx-auto pull-right btn-info" href="http://localhost:8080/post/'+ post.id +'">Detalji</a>'+
+			            '</div>'+
+			          '</div>'+
+			        '</div>'+
+			      '</div>'+
+			    '</div>'+
+			  '</div>'
+		);
+        
+	})
+	
 }
+
+function dodajPost(post){
+	loadedPosts.push(post);
+}
+
+
+
+
+
 

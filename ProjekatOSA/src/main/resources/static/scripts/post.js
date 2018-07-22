@@ -28,10 +28,8 @@ $(document).ready(function(){
 	makeCall(URlComments, "GET").then(function(respJson){
 	 let brojKomentara = respJson.length;
 	 fillBrojKomentara(brojKomentara);
+	 fillComments(respJson);
 	 
-	 $.each(respJson, function(index, value) {
-		 fillComments(value);
-	 })
 	 }, function(reason){
 		 showError();
 	});
@@ -52,6 +50,24 @@ $(document).ready(function(){
 	
 	$("#lajkujBtn").click(function() {
 		likePost();
+	});
+	
+
+    
+    $("#sortDatumUzlazno").click(function() {
+		console.log('radi');
+	});
+    
+    $("#sortDatumSilazno").click(function() {
+    	console.log('radi');
+	});
+    
+    $("#sortPopularnostUzlazno").click(function() {
+    	console.log('radi');
+	});
+    
+    $("#sortPopularnostSilazno").click(function() {
+    	console.log('radi');
 	});
 	
 	
@@ -90,18 +106,22 @@ function fillCommentBrojDislajkova(element, brojDislajkova){
 
 
 
-function fillComments(comment){
-	$("#komentari").append(
-	'<div class="card-body">'+
-	    '<small class="text-muted">'+ comment.date +'</small>'+
-	    '<h4>'+ comment.title +'</h4>'+
-	    '<p>'+ comment.description +'</p>'+
-	    '<a onclick="dislikeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-danger btn-lg">'+
-	      '<i class="fa fa-thumbs-down"> </i> &nbsp; <span> ' + comment.dislikes + '</span> </a>'+
-	    '<a onclick = "likeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-success btn-lg">'+
-	      '<i class="fa fa-thumbs-up"> </i> &nbsp; <span> '+ comment.likes +'</span> </a>'+
-    '</div>'
-    );
+function fillComments(comments){
+	$("#komentari").empty();
+	$.each(comments, function(index, comment){
+		$("#komentari").append(
+				'<div class="card-body">'+
+				    '<small class="text-muted">'+ comment.date +'</small>'+
+				    '<h4>'+ comment.title +'</h4>'+
+				    '<p>'+ comment.description +'</p>'+
+				    '<a onclick="dislikeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-danger btn-lg">'+
+				      '<i class="fa fa-thumbs-down"> </i> &nbsp; <span> ' + comment.dislikes + '</span> </a>'+
+				    '<a onclick = "likeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-success btn-lg">'+
+				      '<i class="fa fa-thumbs-up"> </i> &nbsp; <span> '+ comment.likes +'</span> </a>'+
+			    '</div>'
+		);
+	})
+	
 
 
 }

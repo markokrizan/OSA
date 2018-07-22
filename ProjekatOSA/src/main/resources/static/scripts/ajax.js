@@ -6,7 +6,10 @@ var basePath = "http://localhost:8080/news-api/";
 //post
 var URLGetPosts = basePath + "posts/";
 var URLGetPost = function(id) { return URLGetPosts + id };
+
 var URLGetPostComments = function(id) { return URLGetPosts + id + "/comments/"};
+var URLGetPostNumberOfComments = function(id) {return URLGetPosts + id + "/no_of_comments"};
+
 var URLGetPostTags = function(id) { return URLGetPosts + id + "/tags/"};
 var URLCreatePost = URLGetPosts;
 var URLEditPost = function(id) { return URLGetPosts + id};
@@ -77,7 +80,7 @@ function showError(){
 // -----------------------------------------------------------------------------------------------
 
 //JSONifiers
-function sendablePost(title, description, photo, date, likes, dislikes, logitude, latitude, user){
+function sendablePost(title, description, photo, date, likes, dislikes, logitude, latitude, user, numberOfComments){
 	return JSON.stringify({
 		"title": title,
 		"description" : description,
@@ -89,7 +92,8 @@ function sendablePost(title, description, photo, date, likes, dislikes, logitude
 		"latitude" : latitude,
 		"user" : {
 			id : user
-		}
+		},
+		"numberOfComments" : numberOfComments
 	});
 
 }

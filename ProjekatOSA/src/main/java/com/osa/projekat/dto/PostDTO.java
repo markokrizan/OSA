@@ -21,12 +21,14 @@ public class PostDTO implements Serializable{
 	private Double latitude;
 	private UserDTO user;
 	
+	private Integer numberOfComments;
+	
 	public PostDTO() {
 		super();
 	}
 
 	public PostDTO(Integer id, String title, String description, String photo, Date date, Integer likes,
-			Integer dislikes, Double longitude, Double latitude, UserDTO user) {
+			Integer dislikes, Double longitude, Double latitude, UserDTO user, Integer numberOfComments) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -38,12 +40,13 @@ public class PostDTO implements Serializable{
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.user = user;
+		this.numberOfComments = numberOfComments;
 	}
 	
-	public PostDTO(Post post) {
+	public PostDTO(Post post, Integer numberOfComments) {
 		this(post.getId(), post.getTitle(), post.getDescription(), post.getPhoto(),
 				post.getDate(), post.getLikes(), post.getDislikes(), post.getLongitude(), post.getLatitude(),
-				new UserDTO(post.getUser()));
+				new UserDTO(post.getUser()), numberOfComments);
 	}
 	
 
@@ -126,6 +129,18 @@ public class PostDTO implements Serializable{
 	public void setUser(UserDTO user) {
 		this.user = user;
 	}
+
+	
+	
+	public Integer getNumberOfComments() {
+		return numberOfComments;
+	}
+
+	public void setNumberOfComments(Integer numberOfComments) {
+		this.numberOfComments = numberOfComments;
+	}
+	
+	
 	
 	
 	

@@ -40,9 +40,9 @@ $(document).ready(function(){
 		if(title === "" || desc ==="" || img === ""){
 			$('#nekompletniPodaciModal').modal('show');
 		}else{
-			gatherAndSendPost(title, desc, img);
+			gatherInfo(title, desc, img);
+			//gatherAndSendPost(title, desc, img);
 		}
-		
 		
 	});
 	
@@ -62,31 +62,71 @@ $(document).ready(function(){
 });
 
 
+function gatherInfo(title, desc, img){
+	navigator.geolocation.getCurrentPosition(function(location){
+		sendPost(title, desc, img, location.coords.longitude, location.coords.latitude);
+	}, function(error){
+		sendPost(title, desc, img, 0.0, 0.0);
+		console.log(error.message);
+	});
+}
 
-function gatherAndSendPost(title, desc, img){
+function sendPost(title, desc, img, long, lat){
+	let date = new Date();
+	let likes = 0;
+	let dislikes = 0;		
+	let longitude = long;
+	let latitude = lat;
 	
+	//kasnije iz neke sesije
+	let user = 1;
+	let numberOfComments = 0;
+
+	let post = sendablePost(title, desc, img, date, likes, dislikes, longitude, latitude, user, numberOfComments);
+	
+	sendData(URLCreatePost, "POST", post).then(function(respJson){
+	 $('#createPostModal').modal('hide');
+	 dodajPost(respJson);
+	 showPosts(loadedPosts);
+	}, function(reason){
+	 showError("Greska", reason.status);
+	});
+}
+
+
+/*
+function gatherAndSendPost(title, desc, img){	
 	navigator.geolocation.getCurrentPosition(function(location) {
 		let date = new Date();
 		let likes = 0;
-		let dislikes = 0;
+		let dislikes = 0;		
 		let longitude = location.coords.longitude;
 		let latitude = location.coords.latitude;
+		
 		//kasnije iz neke sesije
 		let user = 1;
+		let numberOfComments = 0;
 
-		let post = sendablePost(title, desc, img, date, likes, dislikes, longitude, latitude, user);
+		let post = sendablePost(title, desc, img, date, likes, dislikes, longitude, latitude, user, numberOfComments);
 		
 		sendData(URLCreatePost, "POST", post).then(function(respJson){
 		 //console.log(respJson)
+		 console.log("usao u succes metode za slanje posta na server");
+			
 		 $('#createPostModal').modal('hide');
 		 showPosts(respJson);
 		}, function(reason){
 		 showError("Greska", reason.status);
 		});
 		
+	}, function(error){
+		console.log("greska u trazenju lokacije");
 	}); 
 	
 }
+*/
+
+
 
 function gatherAndSendComment(title, desc){
 	
@@ -97,10 +137,7 @@ function gatherAndSendComment(title, desc){
 	//session
 	let user = 1;
 	
-	
 	let comment = sendableComment(title, desc, date, likes, dislikes, post, user);
-	
-	
 	
 	sendData(URLCreateComment, "POST", comment).then(function(respJson){
 		 //console.log(respJson)
