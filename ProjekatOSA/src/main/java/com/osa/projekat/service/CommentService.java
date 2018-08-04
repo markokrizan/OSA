@@ -24,6 +24,11 @@ public class CommentService implements CommentServiceInterface {
 	public List<Comment> findByPostId(Integer postId){
 		return new ArrayList<>(commentRepository.findByPostId(postId));
 	}
+	
+	@Override
+	public List<Comment> findByUserId(Integer userId){
+		return new ArrayList<>(commentRepository.findByUserId(userId));
+	}
 
 	@Override
 	public Comment findOne(Integer commentId) {

@@ -30,7 +30,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Registruj se</h5>
+          <h5 class="modal-title">Registracija</h5>
           <button type="button" class="close" data-dismiss="modal">
             <span>×</span>
           </button>
@@ -38,20 +38,31 @@
         <div class="modal-body">
           <form class="">
             <div class="form-group">
-              <input type="email" class="form-control" placeholder="Ime"> </div>
+              <input type="text" class="form-control" id = "userInputIme" placeholder="Ime"> </div>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Korisnicko ime"> </div>
+              <input type="text" class="form-control" id = "userInputKorisnicko" placeholder="Korisnicko ime"> </div>
             <div class="form-group">
-              <input type="password" class="form-control" placeholder="Lozinka"> </div>
+              <input type="password" class="form-control" id = "userInputLozinka" placeholder="Lozinka"> </div>
             <div class="form-group">
-              <input type="password" class="form-control" placeholder="Korisnicko ime"> </div>
+              <input type="text" class="form-control" id = "userInputURLSlike" placeholder="URL Slike"> </div>
             <div class="form-group">
-              <p class="">Izaberite sliku:</p>
-              <input type="file" class="form-control-file"> </div>
+              <div class="form-group">
+                <label>Uloga:</label>
+                <div class="checkbox">
+                  <label >
+                    <input type="checkbox" id = "checkAdmin" value="ADMINISTRATOR"> ADMINISTRATOR</label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" id = "checkObjavljivac" value="OBJAVLJIVAC"> OBJAVLJIVAC</label>
+                </div>
+              </div>
+            </div>
+       
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success">Registruj se</button>
+          <button type="button" class="btn btn-success" id = "registerSubmit">Registruj se</button>
           <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
         </div>
       </div>
@@ -127,13 +138,13 @@
       </div>
     </div>
   </div>
-  <div class="modal" id = "nekompletniPodaciModal">
+  <div class="modal fade" id = "nekompletniPodaciModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Greska!</h5>
           <button type="button" class="close" data-dismiss="modal">
-            <span>�</span>
+            <span>×</span>
           </button>
         </div>
         <div class="modal-body">

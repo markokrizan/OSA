@@ -33,6 +33,10 @@ var URLUnlikeComment = function(id) {return URLGetComments + id + "/unlike"};
 var URLDislikeComment = function(id) {return URLGetComments + id + "/dislike"};
 var URLUndislikeComment = function(id) {return URLGetComments + id + "/undislike"};
 
+//user
+var URLGetUsers = basePath + "users/";
+var URLEditUser = function(id){return URLGetUsers + id};
+var URLCreateUser = URLGetUsers;
 
 
 
@@ -56,8 +60,6 @@ function makeCallNoJSON(url, methodType, callback){
 	 })
 }
 
-
-
 function sendData(url, methodType, object_to_send, callback){
 	return $.ajax({
     url : url,
@@ -76,7 +78,6 @@ function showError(){
 	window.location.href = "http://localhost:8080/error";
 }
 
-
 // -----------------------------------------------------------------------------------------------
 
 //JSONifiers
@@ -92,8 +93,7 @@ function sendablePost(title, description, photo, date, likes, dislikes, logitude
 		"latitude" : latitude,
 		"user" : {
 			id : user
-		},
-		"numberOfComments" : numberOfComments
+		}
 	});
 
 }
@@ -105,9 +105,7 @@ function sendableComment(title, description, date, likes, dislikes, post, user){
 		"date" : date,
 		"likes" : likes,
 		"dislikes" : dislikes,
-		"post":{
-			id : post
-		},
+		"postId" : post,
 		"user" : {
 			id : user
 		}

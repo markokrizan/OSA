@@ -1,9 +1,14 @@
 var liked = 0;
 var disliked = 0;
 
+//kesiraj komentare:
+var loadedComments = null;
 
 
 $(document).ready(function(){
+	
+	$("#traziInput").hide();
+	$("#traziBtn").hide();
 	
 	var postId = getQueryVariable()
 	var URLPost = URLGetPost(postId);
@@ -20,26 +25,18 @@ $(document).ready(function(){
 	 let broj_lajkova = respJson.likes;
 	 let broj_dislajkova = respJson.dislikes;
 	 fillPost(naslov, opis, datum, broj_lajkova, broj_dislajkova);
+	 fillTags(respJson.tags);
+	 fillBrojKomentara(respJson.comments.length);
+	 fillComments(respJson.comments);
+	 
+	 loadedComments = respJson.comments;
+	 
 	  
 	}, function(reason){
 	 showError();
 	});
 
-	makeCall(URlComments, "GET").then(function(respJson){
-	 let brojKomentara = respJson.length;
-	 fillBrojKomentara(brojKomentara);
-	 fillComments(respJson);
-	 
-	 }, function(reason){
-		 showError();
-	});
-	
-	
-	makeCall(URLTags, "GET").then(function(respJson){
-		 fillTags(respJson);
-	}, function(reason){
-	 showError();
-	});
+
 	
 	
 	//like/dislike
@@ -52,22 +49,27 @@ $(document).ready(function(){
 		likePost();
 	});
 	
-
+	
+	//sortiranja:
     
     $("#sortDatumUzlazno").click(function() {
-		console.log('radi');
+    	sortirajDatum(loadedComments, "uzlazno");
+    	fillComments(loadedComments);
 	});
     
     $("#sortDatumSilazno").click(function() {
-    	console.log('radi');
+    	sortirajDatum(loadedComments, "silazno");
+    	fillComments(loadedComments);
 	});
     
     $("#sortPopularnostUzlazno").click(function() {
-    	console.log('radi');
+    	sortirajNumericko(loadedComments, "uzlazno", "likes");
+    	fillComments(loadedComments);
 	});
     
     $("#sortPopularnostSilazno").click(function() {
-    	console.log('radi');
+    	sortirajNumericko(loadedComments, "silazno", "likes");
+    	fillComments(loadedComments);
 	});
 	
 	
@@ -118,7 +120,9 @@ function fillComments(comments){
 				      '<i class="fa fa-thumbs-down"> </i> &nbsp; <span> ' + comment.dislikes + '</span> </a>'+
 				    '<a onclick = "likeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-success btn-lg">'+
 				      '<i class="fa fa-thumbs-up"> </i> &nbsp; <span> '+ comment.likes +'</span> </a>'+
-			    '</div>'
+			    '</div>'+
+			    '<br/>'+
+			    '<hr>'
 		);
 	})
 	
@@ -238,6 +242,11 @@ function dislikeComment(element, id){
 			showError();
 		});
 	}
+}
+
+
+function dodajKomentar(comment){
+	loadedComments.push(comment);
 }
 
 

@@ -1,6 +1,9 @@
 package com.osa.projekat.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import com.osa.projekat.model.Comment;
 
@@ -12,14 +15,15 @@ public class CommentDTO {
 	Date date;
 	Integer likes;
 	Integer dislikes;
-	PostDTO post;
+	
+	Integer postId;
 	UserDTO user;
 	
 	public CommentDTO() {
 		super();
 	}
 
-	public CommentDTO(Integer id, String title, String description, Date date, Integer likes, Integer dislikes, PostDTO post,
+	public CommentDTO(Integer id, String title, String description, Date date, Integer likes, Integer dislikes, Integer postId,
 			UserDTO user) {
 		super();
 		this.id = id;
@@ -28,13 +32,13 @@ public class CommentDTO {
 		this.date = date;
 		this.likes = likes;
 		this.dislikes = dislikes;
-		this.post = post;
+		this.postId = postId;
 		this.user = user;
 	}
 	
 	public CommentDTO(Comment comment) {
 		this(comment.getId(), comment.getTitle(), comment.getDescription(), comment.getDate(), comment.getLikes(), comment.getDislikes(),
-				new PostDTO(comment.getPost(), comment.getPost().getComments().size()), new UserDTO(comment.getUser()));
+				comment.getPost().getId(), new UserDTO(comment.getUser()));
 		
 	}
 
@@ -87,12 +91,13 @@ public class CommentDTO {
 		this.dislikes = dislikes;
 	}
 
-	public PostDTO getPost() {
-		return post;
+	
+	public Integer getPostId() {
+		return postId;
 	}
 
-	public void setPost(PostDTO post) {
-		this.post = post;
+	public void setPostId(Integer postId) {
+		this.postId = postId;
 	}
 
 	public UserDTO getUser() {
@@ -104,7 +109,14 @@ public class CommentDTO {
 	}
 	
 	
-	
+	public static List<CommentDTO> entityToDto(List<Comment> entityList){
+		List<CommentDTO> dtoList = new ArrayList<>();
+		for (Comment comment : entityList) {
+			CommentDTO commentDTO = new CommentDTO(comment);
+			dtoList.add(commentDTO);
+		}
+		return dtoList;
+	}
 	
 	
 	

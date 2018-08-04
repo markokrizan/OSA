@@ -1,6 +1,7 @@
 package com.osa.projekat.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.osa.projekat.model.User;
 
@@ -10,6 +11,9 @@ public interface UserServiceInterface {
 	
 	
 	User findOne(Integer userId);
+	
+	
+	Optional<User> findByUsername(String username);
 	
 
 	User save(User user);

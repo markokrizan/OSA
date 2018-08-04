@@ -12,5 +12,8 @@ public interface CommentRepository extends JpaRepository<Comment, Integer>{
 	
 	@Query(value = "SELECT * FROM comments WHERE post_id = ?1", nativeQuery = true)
 	List<Comment> findByPostId(Integer postId);
+	
+	@Query(value = "SELECT * FROM comments WHERE user_id = ?1", nativeQuery = true)
+	List<Comment> findByUserId(Integer userId);
 
 }

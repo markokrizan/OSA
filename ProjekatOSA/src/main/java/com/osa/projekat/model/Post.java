@@ -233,6 +233,18 @@ public class Post implements Serializable{
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
 	
 	
 	

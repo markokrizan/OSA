@@ -66,7 +66,7 @@ public class CommentController {
 		comment.setLikes(commentDTO.getLikes());
 		comment.setDislikes(commentDTO.getDislikes());
 		comment.setUser(userService.findOne(commentDTO.getUser().getId()));
-		comment.setPost(postService.findOne(commentDTO.getPost().getId()));
+		comment.setPost(postService.findOne(commentDTO.getPostId()));
 		
 		
 		comment = commentService.save(comment);
@@ -86,7 +86,7 @@ public class CommentController {
 			comment.setLikes(commentDTO.getLikes());
 			comment.setDislikes(commentDTO.getDislikes());
 			comment.setUser(userService.findOne(commentDTO.getUser().getId()));
-			comment.setPost(postService.findOne(commentDTO.getPost().getId()));
+			//comment.setPost(postService.findOne(commentDTO.getPost().getId()));
 			
 			comment = commentService.save(comment);
 			return new ResponseEntity<CommentDTO>(new CommentDTO(comment), HttpStatus.CREATED);

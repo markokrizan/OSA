@@ -49,7 +49,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.csrf().disable();
+		
+		//http.csrf().disable();//ovo ovako treba da bude
+		http.csrf();
 		http.authorizeRequests()
 				//autentifikuj sve koji gadjaju uri koji negde ima news-api
 				.antMatchers("**/news-api/**").authenticated()

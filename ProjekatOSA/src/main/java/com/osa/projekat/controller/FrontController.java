@@ -39,6 +39,12 @@ public class FrontController implements ErrorController {
 		return "navigation";
 	}
 	
+	@RequestMapping("/admin")
+	public String admin() {
+		return "admin";
+	}
+	
+	
 	
 	
 

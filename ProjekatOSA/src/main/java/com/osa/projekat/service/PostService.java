@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.osa.projekat.model.Comment;
 import com.osa.projekat.model.Post;
 import com.osa.projekat.repository.PostRepository;
 
@@ -26,6 +27,11 @@ public class PostService implements PostServiceInterface {
 	@Override
 	public Post findOne(Integer postId) {
 		return postRepository.getOne(postId);
+	}
+	
+	@Override
+	public List<Post> findByUserId(Integer userId){
+		return postRepository.findByUserId(userId);
 	}
 
 	@Override

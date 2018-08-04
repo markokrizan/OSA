@@ -12,6 +12,9 @@ public interface CommentServiceInterface {
 	List<Comment> findByPostId(Integer postId);
 	
 	
+	List<Comment> findByUserId(Integer postId);
+	
+	
 	Comment findOne(Integer commentId);
 	
 

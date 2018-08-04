@@ -1,7 +1,10 @@
 //kesiraj za sortiranje
 var loadedPosts = null;
 
+
 $(document).ready(function(){
+	
+
 	
 	//initial
 	makeCall(URLGetPosts, "GET").then(function(respJson){
@@ -26,12 +29,12 @@ $(document).ready(function(){
 	});
 	
 	$("#sortBrojKomentaraUzlazno").click(function() {
-		sortirajNumericko(loadedPosts, "uzlazno", "numberOfComments");
+		sortirajBrojKomentara(loadedPosts, "uzlazno");
 		showPosts(loadedPosts);
 	});
 	
 	$("#sortBrojKomentaraSilazno").click(function() {
-		sortirajNumericko(loadedPosts, "silazno", "numberOfComments");
+		sortirajBrojKomentara(loadedPosts, "silazno");
 		showPosts(loadedPosts);
 	});
 	
@@ -44,6 +47,17 @@ $(document).ready(function(){
 	$("#sortPopularnostSilazno").click(function() {
 		sortirajNumericko(loadedPosts, "silazno", "likes");
 		showPosts(loadedPosts);
+	});
+	
+	//search
+	$("#traziBtn").click(function(){
+		let query = $("#traziInput").val();
+		
+		let pretrazeni = nadjiPostove(loadedPosts, query);
+		showPosts(pretrazeni);
+		
+		$("#traziInput").val('');
+		
 	});
 
 });

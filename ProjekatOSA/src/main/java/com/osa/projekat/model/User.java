@@ -73,15 +73,6 @@ public class User {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	//add i remove
 	//da se apdejtuje veza sa druge strane
 	public void addPost(Post post) {
@@ -170,7 +161,7 @@ public class User {
 	
 	
 	//Role:
-
+	
 	public Set<Role> getRoles() {
 		return roles;
 	}

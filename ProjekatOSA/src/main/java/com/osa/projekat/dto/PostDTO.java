@@ -1,9 +1,14 @@
 package com.osa.projekat.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.osa.projekat.model.Post;
+import com.osa.projekat.model.Tag;
 
 public class PostDTO implements Serializable{
 	
@@ -21,14 +26,16 @@ public class PostDTO implements Serializable{
 	private Double latitude;
 	private UserDTO user;
 	
-	private Integer numberOfComments;
+	//private Integer numberOfComments;
+	private Set<TagDTO> tags;
+	private List<CommentDTO> comments;
 	
 	public PostDTO() {
 		super();
 	}
 
 	public PostDTO(Integer id, String title, String description, String photo, Date date, Integer likes,
-			Integer dislikes, Double longitude, Double latitude, UserDTO user, Integer numberOfComments) {
+			Integer dislikes, Double longitude, Double latitude, UserDTO user, Set<TagDTO> tags, List<CommentDTO> comments) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -40,13 +47,18 @@ public class PostDTO implements Serializable{
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.user = user;
-		this.numberOfComments = numberOfComments;
+		this.tags = tags;
+		this.comments = comments;
+		
+		//i u parametrima
+		//this.numberOfComments = numberOfComments;
+		
 	}
 	
-	public PostDTO(Post post, Integer numberOfComments) {
+	public PostDTO(Post post) {
 		this(post.getId(), post.getTitle(), post.getDescription(), post.getPhoto(),
 				post.getDate(), post.getLikes(), post.getDislikes(), post.getLongitude(), post.getLatitude(),
-				new UserDTO(post.getUser()), numberOfComments);
+				new UserDTO(post.getUser()), TagDTO.entityToDto(post.getTags()) , CommentDTO.entityToDto(post.getComments()));
 	}
 	
 
@@ -130,15 +142,32 @@ public class PostDTO implements Serializable{
 		this.user = user;
 	}
 
-	
-	
-	public Integer getNumberOfComments() {
-		return numberOfComments;
+	public Set<TagDTO> getTags() {
+		return tags;
 	}
 
-	public void setNumberOfComments(Integer numberOfComments) {
-		this.numberOfComments = numberOfComments;
+	public void setTags(Set<TagDTO> tags) {
+		this.tags = tags;
 	}
+
+	public List<CommentDTO> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentDTO> comments) {
+		this.comments = comments;
+	}
+
+	
+	public static ArrayList<PostDTO> entityToDto(ArrayList<Post> entitySet){
+		ArrayList<PostDTO> dtoSet = new ArrayList<>();
+		for (Post post : entitySet) {
+			PostDTO postDTO = new PostDTO(post);
+			dtoSet.add(postDTO);
+		}
+		return dtoSet;
+	}
+
 	
 	
 	

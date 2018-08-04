@@ -51,12 +51,10 @@ public class PostController {
 	@GetMapping
 	public ResponseEntity<List<PostDTO>> getPosts() {
 		List<Post> posts = postService.findAll();
-		System.out.println("posts " + posts);
 		//convert categories to DTOs
 		List<PostDTO> postsDTO = new ArrayList<PostDTO>();
 		for (Post p : posts) {
-			Integer numberOfComments = commentService.findByPostId(p.getId()).size();
-			postsDTO.add(new PostDTO(p, numberOfComments));
+			postsDTO.add(new PostDTO(p));
 		}
 		//vraca listu dto gotovih objekata spremnih za front
 		return new ResponseEntity<List<PostDTO>>(postsDTO, HttpStatus.OK);
@@ -76,8 +74,7 @@ public class PostController {
 		if(post == null) {
 			return new ResponseEntity<PostDTO>(HttpStatus.NOT_FOUND);
 		}
-		Integer numberOfComments = commentService.findByPostId(id).size();
-		return new ResponseEntity<PostDTO>(new PostDTO(post, numberOfComments), HttpStatus.OK);
+		return new ResponseEntity<PostDTO>(new PostDTO(post), HttpStatus.OK);
 		
 	}
 	
@@ -125,7 +122,7 @@ public class PostController {
 		post.setUser(userService.findOne(postDTO.getUser().getId()));
 		
 		post = postService.save(post);
-		return new ResponseEntity<PostDTO>(new PostDTO(post, 0), HttpStatus.CREATED);
+		return new ResponseEntity<PostDTO>(new PostDTO(post), HttpStatus.CREATED);
 		
 	}
 	
@@ -147,7 +144,7 @@ public class PostController {
 			post.setUser(userService.findOne(postDTO.getUser().getId()));
 			
 			post = postService.save(post);
-			return new ResponseEntity<PostDTO>(new PostDTO(post, postDTO.getNumberOfComments()), HttpStatus.CREATED);
+			return new ResponseEntity<PostDTO>(new PostDTO(post), HttpStatus.CREATED);
 		}
 		
 		

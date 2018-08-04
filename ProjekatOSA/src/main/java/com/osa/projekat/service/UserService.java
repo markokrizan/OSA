@@ -1,6 +1,7 @@
 package com.osa.projekat.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,11 @@ public class UserService implements UserServiceInterface {
 	public User findOne(Integer userId) {
 		return userRepository.getOne(userId);
 	}
+	
+	@Override
+	public Optional<User> findByUsername(String username) {
+		return userRepository.findByUsername(username);
+	}
 
 	@Override
 	public User save(User user) {
@@ -35,6 +41,8 @@ public class UserService implements UserServiceInterface {
 		// TODO Auto-generated method stub
 		
 	}
+
+	
 	
 	
 
