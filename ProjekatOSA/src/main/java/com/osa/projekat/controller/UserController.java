@@ -101,42 +101,36 @@ public class UserController {
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO){
-//		User user = new User();
-//		user.setName(userDTO.getName());
-//		user.setUsername(userDTO.getUsername());
-//		user.setPassword(userDTO.getPassword());
-//		user.setPhoto(userDTO.getPhoto());
-//		
-//		Set<Role> rolesToAdd = new HashSet<>();
-//		for (RoleDTO roleDTO : userDTO.getRoles()) {
-//			Role role = roleService.findOne(roleDTO.getRoleName());
-//			rolesToAdd.add(role);
-//		}
-//		user.setRoles(rolesToAdd);
-//		
-//		//ostalo se dodaje svako preko sebe?
-//		/*
-//		user.setRoles(userDTO.getRoles());
-//		user.setPosts(userDTO.getPosts());
-//		user.setComments(userDTO.getComments());
-//		*/
-//		user = userService.save(user);
-//		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.CREATED);
+		User user = new User();
+		user.setName(userDTO.getName());
+		user.setUsername(userDTO.getUsername());
+		user.setPassword(userDTO.getPassword());
+		user.setPhoto(userDTO.getPhoto());
 		
-		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
+		Set<Role> rolesToAdd = new HashSet<>();
+		for (RoleDTO roleDTO : userDTO.getRoles()) {
+			Role role = roleService.findOne(roleDTO.getRoleName());
+			rolesToAdd.add(role);
+		}
+		user.setRoles(rolesToAdd);
 		
-		
-		
+		user = userService.save(user);
+		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.CREATED);
 	}
 	
-	//ResponseEntity<UserDTO>
+
 	@PutMapping(consumes = "application/json")
 	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
-		/*
+		
+		System.out.println("USAO U METODU");
+		System.out.println(userDTO);
+		
 		Optional<User> user = userService.findByUsername(userDTO.getUsername());
 		if (user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.BAD_REQUEST);
 		}
+		
+		System.out.println(user);
 		user.get().setName(userDTO.getName());
 		user.get().setUsername(userDTO.getUsername());
 		user.get().setPassword(userDTO.getPassword());
@@ -149,11 +143,14 @@ public class UserController {
 		}
 		user.get().setRoles(rolesToAdd);
 		
+		System.out.println(user);
+		
 		userService.save(user.get());
+		
+		System.out.println(user);
 		return new ResponseEntity<UserDTO>(new UserDTO(user.get()), HttpStatus.CREATED);
-		*/
-		return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);
-		//System.out.println("Stigao do put metode za promenu korisnika");
+		
+		
 		
 	}
 	

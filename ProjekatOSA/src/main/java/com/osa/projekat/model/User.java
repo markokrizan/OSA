@@ -14,7 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
@@ -49,7 +49,8 @@ public class User {
 	//Indijksa veza:
 	//1. USER ONE ------------- MANY ROLES
 	//Users, roles, user_roles su tabele
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	//@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // OVO BILO ORIGINALNO
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 	
@@ -169,6 +170,25 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	
+	public void addRole(Role role) {
+		roles.add(role);
+		//apdejtuj vezu sa druge strane ako treba!
+		
+	}
+	 
+	public void removeRole(Role role) {
+	    roles.remove(role);
+	    //apdejtuj vezu sa druge strane ako treba!
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password + ", photo="
+				+ photo + ", roles=" + roles + ", posts=" + posts + ", comments=" + comments + "]";
+	}
+	
+	
 	
 	
 	

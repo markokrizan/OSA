@@ -399,8 +399,8 @@ class UserModal{
 		let self = this;
 		this.prikupiPodatke();
 		sendData(URLCreateUser,"POST", JSON.stringify(self.user)).then(function(respJson){
-			//self.osveziAdmin(respJson);
-			console.log(respJson);
+			self.osveziAdmin(respJson);
+			//console.log(respJson);
 		}, function(reason){
 			//showError("Greska", reason.status);
 			console.log(reason);
@@ -413,9 +413,9 @@ class UserModal{
 		let url = URLEditUser(this.user.id);
 		console.log(url);
 		sendData(url,"PUT", JSON.stringify(self.user)).then(function(respJson){
-			//self.osveziAdmin(respJson);
-			console.log(respJson);
-			console.log("Uspeo request");
+			self.osveziAdmin(respJson);
+			//console.log(respJson);
+			//console.log("Uspeo request");
 		}, function(reason){
 			//showError("Greska", reason.status);
 			console.log(reason);

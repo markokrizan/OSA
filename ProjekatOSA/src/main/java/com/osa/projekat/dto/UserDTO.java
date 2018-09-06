@@ -133,6 +133,12 @@ public class UserDTO implements Serializable{
 		this.roles = roles;
 	}
 
+	@Override
+	public String toString() {
+		return "UserDTO [id=" + id + ", name=" + name + ", username=" + username + ", password=" + password + ", photo="
+				+ photo + ", roles=" + roles + "]";
+	}
+
 
 	/*
 	public ArrayList<PostDTO> getPosts() {

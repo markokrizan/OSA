@@ -32,13 +32,13 @@ public class UserService implements UserServiceInterface {
 
 	@Override
 	public User save(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return userRepository.save(user);
+	
 	}
 
 	@Override
 	public void remove(Integer id) {
-		// TODO Auto-generated method stub
+		userRepository.deleteById(id);
 		
 	}
 
