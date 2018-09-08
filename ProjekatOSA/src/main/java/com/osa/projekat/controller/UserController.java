@@ -71,11 +71,11 @@ public class UserController {
 	
 	@GetMapping(value = "username/{username}")
 	public ResponseEntity<UserDTO> getByUserName(@PathVariable("id") String username){
-		Optional<User> user = userService.findByUsername(username);
+		User user = userService.findByUsername(username);
 		if(user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<UserDTO>(new UserDTO(user.get()), HttpStatus.OK);
+		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.OK);
 		
 	}
 	
@@ -125,30 +125,29 @@ public class UserController {
 		System.out.println("USAO U METODU");
 		System.out.println(userDTO);
 		
-		Optional<User> user = userService.findByUsername(userDTO.getUsername());
+		User user = userService.findByUsername(userDTO.getUsername());
 		if (user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.BAD_REQUEST);
 		}
 		
 		System.out.println(user);
-		user.get().setName(userDTO.getName());
-		user.get().setUsername(userDTO.getUsername());
-		user.get().setPassword(userDTO.getPassword());
-		user.get().setPhoto(userDTO.getPhoto());
+		user.setName(userDTO.getName());
+		user.setUsername(userDTO.getUsername());
+		user.setPassword(userDTO.getPassword());
+		user.setPhoto(userDTO.getPhoto());
 
 		Set<Role> rolesToAdd = new HashSet<>();
 		for (RoleDTO roleDTO : userDTO.getRoles()) {
 			Role role = roleService.findOne(roleDTO.getRoleName());
 			rolesToAdd.add(role);
 		}
-		user.get().setRoles(rolesToAdd);
+		user.setRoles(rolesToAdd);
 		
-		System.out.println(user);
 		
-		userService.save(user.get());
 		
-		System.out.println(user);
-		return new ResponseEntity<UserDTO>(new UserDTO(user.get()), HttpStatus.CREATED);
+		userService.save(user);
+	
+		return new ResponseEntity<UserDTO>(new UserDTO(user), HttpStatus.CREATED);
 		
 		
 		

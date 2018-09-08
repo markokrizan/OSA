@@ -13,7 +13,7 @@ public interface UserServiceInterface {
 	User findOne(Integer userId);
 	
 	
-	Optional<User> findByUsername(String username);
+	User findByUsername(String username);
 	
 
 	User save(User user);

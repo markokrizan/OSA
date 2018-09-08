@@ -15,18 +15,19 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.osa.projekat.service.UserServiceInterface;
+import com.osa.projekat.service.UserService;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
-	@Autowired
-	private UserServiceInterface userService;
+	
+	private UserDetailsServiceImpl userDetailsService;
     
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurity(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailsServiceImpl userDetailsService) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userService(userService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
   @Bean
