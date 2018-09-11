@@ -281,7 +281,6 @@ class CommentModal{
 			 }else{
 				 self.osveziPost(respJson); 
 			 }
-			console.log(respJson);
 		}, function(reason){
 			showError("Greska", reason.status);
 		
