@@ -45,13 +45,15 @@ public class FrontController/* implements ErrorController */{
 	}
 	
 	
-	
-	
-
 	@RequestMapping("/post/{id}")
 	public String post(@PathVariable("id") String id) {
 		//proveru radi na frontu jer je ovo namenjeno da bude posebna aplikacija	
         return "post";
+	}
+	
+	@RequestMapping("/user/{id}")
+	public String user(@PathVariable("id") String id) {
+		return "user";
 	}
 	
 	//----------------------------------------------------

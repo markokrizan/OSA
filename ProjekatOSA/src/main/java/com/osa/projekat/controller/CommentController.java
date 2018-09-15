@@ -146,7 +146,7 @@ public class CommentController {
 	
 	
 	@DeleteMapping(value = "{id}")
-	public ResponseEntity<Void> deletePost(@PathVariable("id") Integer id){
+	public ResponseEntity<Void> deleteComment(@PathVariable("id") Integer id){
 		Comment comment = commentService.findOne(id);
 		if(comment != null) {
 			commentService.remove(id);

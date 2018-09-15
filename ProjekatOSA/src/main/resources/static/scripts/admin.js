@@ -8,11 +8,12 @@ var objavaZaIzmenu = null;
 var aktivanEntitet = null;
 
 
-
-
+var userId = localStorage.getItem('userId');
+var currentAdmin = null;
 
 
 $(document).ready(function(){
+	
 	
 	$("#postBtn").hide();
 	
@@ -22,6 +23,7 @@ $(document).ready(function(){
 	$("#traziInput").hide();
 	$("#traziBtn").hide();
 	
+	ucitajKorisnika();
 	ucitajObjave();
 	aktivanEntitet = "objave";
 	
@@ -89,13 +91,30 @@ $(document).ready(function(){
     	}
 		
 	});
+	
+	$("#btnIzmeniPodatke").click(function(){
+		modalZaIzmenuDodavanjeKorisnika = new UserModal(currentAdmin, "izmena");
+	});
 
 	
-	 
+	podesiInterfejsPremaKorisniku();
 });
 
 
 //ucitavanja ------------------------------------------
+
+function ucitajKorisnika(){
+	makeCall("http://localhost:8080/news-api/users/" + userId, "GET").then(function(respJson){
+		 //console.log(respJson);
+		 napuniKorisnika(respJson);
+		 currentAdmin = respJson;
+	}, function(reason){
+		console.log(reason);
+		//showError();
+	});
+}
+
+
 function ucitajObjave(){
 	makeCall(URLGetPosts, "GET").then(function(respJson){
 		 ucitaneObjave = respJson;
@@ -141,8 +160,37 @@ function izmeniObjavu(element, id){
 }
 
 function obrisiObjavu(element, id){
-	console.log(id);
+	
+	var callback = function(id){
+		makeDeleteCall("http://localhost:8080/news-api/posts/" + id, "DELETE").then(function(respJson){
+			 console.log(respJson);
+			 
+			 //osvezi:
+			 removeDeletedEntity(id, ucitaneObjave);
+			 ucitajObjave();
+			 
+			 
+		}, function(reason){
+			//showError();
+			console.log(reason);
+		});
+	};
+	
+	potvrdiBrisanje(callback, id);
+	
+	
 }
+
+function potvrdiBrisanje(callback, id){
+	let confirmModal = $('#potvrdiModal');
+	confirmModal.find("#btnPotvrdiBrisanje").click(function(event){
+		callback(id);
+		$('#potvrdiModal').modal('hide');
+	});
+	
+	$('#potvrdiModal').modal('show');
+}
+
 
 function komentarisiObjavu(element, id){
 	
@@ -201,7 +249,22 @@ function izmeniKomentar(element, id){
 }
 
 function obrisiKomentar(element, id){
-	console.log(id);
+	var callback = function(id){
+		makeDeleteCall("http://localhost:8080/news-api/comments/" + id, "DELETE").then(function(respJson){
+			 console.log(respJson);
+			 
+			 //osvezi:
+			 removeDeletedEntity(id,ucitaniKomentari);
+			 ucitajKomentare();
+			 
+			 
+		}, function(reason){
+			//showError();
+			console.log(reason);
+		});
+	};
+	
+	potvrdiBrisanje(callback, id);
 }
 
 function sortirajKomentare(poredak, kriterijum){
@@ -243,7 +306,22 @@ function izmeniKorisnika(element, id){
 
 
 function obrisiKorisnika(element, id){
-	console.log(id);
+	var callback = function(id){
+		makeDeleteCall("http://localhost:8080/news-api/users/" + id, "DELETE").then(function(respJson){
+			 console.log(respJson);
+			 
+			 //osvezi:
+			 removeDeletedEntity(id,ucitaniKorisnici);
+			 ucitajKorisnike();
+			 
+			 
+		}, function(reason){
+			//showError();
+			console.log(reason);
+		});
+	};
+	
+	potvrdiBrisanje(callback, id);
 }
 
 function pretraziKorisnike(query){
@@ -255,6 +333,24 @@ function pretraziKorisnike(query){
 
 
 //iscrctavanja tabela -------------------------------------
+
+function napuniKorisnika(korisnik){
+	
+	$("#userImePrezime").html(korisnik.name);
+	
+	
+	let uloge = [];
+	 $.each(korisnik.roles, function(index, uloga){
+		 uloge.push(uloga.roleName);
+	 })
+	
+
+	$("#userUloge").html(uloge);
+	$("#userKorisnicko").html(korisnik.username);
+	$("#userSlika").attr('src',korisnik.photo);
+	
+	
+}
 
 function generisiTabeluObjava(objave){
 	
@@ -335,7 +431,7 @@ function generisiTabeluKomentara(komentari){
 	            '<td>'+
 	              '<a class="btn btn-warning" onclick="izmeniKomentar(this, '+ komentar.id +')"  >Izmeni </a>'+
 	              '&nbsp;'+
-	              '<a class="btn btn-danger" onclick="obrisiObjavu(this, '+ komentar.id +')" >Obrisi </a>'+
+	              '<a class="btn btn-danger" onclick="obrisiKomentar(this, '+ komentar.id +')" >Obrisi </a>'+
 	            '</td>'+
 	            '</tr>'
 		);
@@ -356,10 +452,18 @@ function generisiTabeluKorisnika(korisnici){
 	);
 	$("#redovi").empty();
 	$.each(korisnici, function(index, korisnik){
+		
+		//da nema i sebe na tabeli
+		 if(korisnik.id == userId){
+			 return true;
+		 }
+		
+		
 		let uloge = [];
 		 $.each(korisnik.roles, function(index, uloga){
 			 uloge.push(uloga.roleName);
 		 })
+		 
 		$("#redovi").append(
 				'<tr>'+
 	            '<td>' + korisnik.id + '</td>'+
@@ -369,7 +473,7 @@ function generisiTabeluKorisnika(korisnici){
 	            '<td>'+
 	              '<a class="btn btn-warning" onclick="izmeniKorisnika(this, '+ korisnik.id +')"  >Izmeni </a>'+
 	              '&nbsp;'+
-	              '<a class="btn btn-danger" onclick="obrisiObjavu(this, '+ korisnik.id +')" >Obrisi </a>'+
+	              '<a class="btn btn-danger" onclick="obrisiKorisnika(this, '+ korisnik.id +')" >Obrisi </a>'+
 	            '</td>'+
 	            '</tr>'
 		);

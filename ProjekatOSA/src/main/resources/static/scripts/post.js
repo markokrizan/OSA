@@ -7,17 +7,20 @@ var loadedComments = null;
 
 $(document).ready(function(){
 	
+
 	$("#traziInput").hide();
 	$("#traziBtn").hide();
 	
-	var postId = getQueryVariable()
+	var postId = getQueryVariable();
 	var URLPost = URLGetPost(postId);
 	var URlComments = URLGetPostComments(postId);
 	var URLTags = URLGetPostTags(postId);
 	
-
+	
 
 	makeCall(URLPost, "GET").then(function(respJson){
+		
+
 	
 	 let naslov = respJson.title;
 	 let opis = respJson.description;
@@ -31,9 +34,12 @@ $(document).ready(function(){
 	 
 	 loadedComments = respJson.comments;
 	 
+	 //DOSTA VELIK BUDZ, MORA NAKON IZVRSENIH AJAXA
+	 podesiInterfejsPremaKorisniku();
 	  
 	}, function(reason){
-	 showError();
+	 console.log(reason);	
+	 //showError();
 	});
 
 
@@ -73,10 +79,21 @@ $(document).ready(function(){
 	});
 	
 	
+   
+   
 	
 	
-
+    
 });
+
+//trebalo bi da se okine kada se svi zavrse, nesto mi se cini kao da se okida posle svakog
+/*
+$(document).ajaxStop(function() {
+	
+	podesiInterfejsPremaKorisniku();
+	console.log("gotovi svi ajaxi");
+});
+*/
 
 function fillPost(naslov, opis, datum, broj_lajkova, broj_dislajkova){
 	$("#naslovPosta").html(naslov);
@@ -116,9 +133,9 @@ function fillComments(comments){
 				    '<small class="text-muted">'+ comment.date +'</small>'+
 				    '<h4>'+ comment.title +'</h4>'+
 				    '<p>'+ comment.description +'</p>'+
-				    '<a onclick="dislikeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-danger btn-lg">'+
+				    '<a onclick="dislikeComment(this, '+ comment.id +')" data-clicked = "0" class="dislikeCommentsButtons btn pull-right btn-danger btn-lg">'+
 				      '<i class="fa fa-thumbs-down"> </i> &nbsp; <span> ' + comment.dislikes + '</span> </a>'+
-				    '<a onclick = "likeComment(this, '+ comment.id +')" data-clicked = "0" class="btn pull-right btn-success btn-lg">'+
+				    '<a onclick = "likeComment(this, '+ comment.id +')" data-clicked = "0" class="likeCommentButtons btn pull-right btn-success btn-lg">'+
 				      '<i class="fa fa-thumbs-up"> </i> &nbsp; <span> '+ comment.likes +'</span> </a>'+
 			    '</div>'+
 			    '<br/>'+

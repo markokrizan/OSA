@@ -100,7 +100,7 @@ function insertChangedComment(comment, collection){
 	})
 }
 
-function unsertChangedUser(user, collection){
+function insertChangedUser(user, collection){
 	$.each(collection, function(index, item){
 		if (item.id === user.id ){
 			item.name = user.name;
@@ -110,4 +110,14 @@ function unsertChangedUser(user, collection){
 			item.roles = user.roles;
 		}
 	})
+}
+
+function removeDeletedEntity(id, collection){
+	let indexForRemoval = null;
+	$.each(collection, function(index, item){
+		if(id == item.id){
+			indexForRemoval = index;
+		}
+	});
+	collection.splice(indexForRemoval, 1);
 }

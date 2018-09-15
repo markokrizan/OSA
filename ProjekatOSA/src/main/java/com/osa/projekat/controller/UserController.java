@@ -9,6 +9,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,6 +102,7 @@ public class UserController {
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO){
+			
 		User user = new User();
 		user.setName(userDTO.getName());
 		user.setUsername(userDTO.getUsername());
@@ -122,27 +124,34 @@ public class UserController {
 	@PutMapping(consumes = "application/json")
 	public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
 		
-		System.out.println("USAO U METODU");
-		System.out.println(userDTO);
 		
-		User user = userService.findByUsername(userDTO.getUsername());
+		
+		//User user = userService.findByUsername(userDTO.getUsername());
+		User user = userService.findOne(userDTO.getId());
 		if (user == null) {
 			return new ResponseEntity<UserDTO>(HttpStatus.BAD_REQUEST);
 		}
 		
-		System.out.println(user);
+		
 		user.setName(userDTO.getName());
 		user.setUsername(userDTO.getUsername());
 		user.setPassword(userDTO.getPassword());
 		user.setPhoto(userDTO.getPhoto());
 
+		
+
+		
 		Set<Role> rolesToAdd = new HashSet<>();
 		for (RoleDTO roleDTO : userDTO.getRoles()) {
-			Role role = roleService.findOne(roleDTO.getRoleName());
+			Role role = roleService.findOne(roleDTO.getId());
 			rolesToAdd.add(role);
 		}
 		user.setRoles(rolesToAdd);
 		
+
+		
+		
+	
 		
 		
 		userService.save(user);
@@ -153,6 +162,17 @@ public class UserController {
 		
 	}
 	
+	@DeleteMapping(value = "{id}")
+	public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id){
+		User user = userService.findOne(id);
+		if(user != null) {
+			userService.remove(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
 	
 	
 	

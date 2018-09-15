@@ -1,7 +1,9 @@
 package com.osa.projekat.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.osa.projekat.dto.CommentDTO;
 import com.osa.projekat.dto.PostDTO;
+import com.osa.projekat.dto.RoleDTO;
 import com.osa.projekat.dto.TagDTO;
 import com.osa.projekat.model.Comment;
 import com.osa.projekat.model.Post;
+import com.osa.projekat.model.Role;
 import com.osa.projekat.model.Tag;
 import com.osa.projekat.service.CommentServiceInterface;
 import com.osa.projekat.service.PostServiceInterface;
@@ -117,6 +121,16 @@ public class PostController {
 		post.setLatitude(postDTO.getLatitude());
 		post.setUser(userService.findOne(postDTO.getUser().getId()));
 		
+		//tags:
+		Set<Tag> tagsToAdd = new HashSet<>();
+		for(TagDTO tagDTO : postDTO.getTags()) {
+			Tag tag = tagService.findOne(tagDTO.getId());
+			tagsToAdd.add(tag);
+		}
+		post.setTags(tagsToAdd);
+		
+		
+		
 		post = postService.save(post);
 		return new ResponseEntity<PostDTO>(new PostDTO(post), HttpStatus.CREATED);
 		
@@ -138,6 +152,14 @@ public class PostController {
 			post.setLongitude(postDTO.getLongitude());
 			post.setLatitude(postDTO.getLatitude());
 			post.setUser(userService.findOne(postDTO.getUser().getId()));
+			
+			//tags:
+			Set<Tag> tagsToAdd = new HashSet<>();
+			for(TagDTO tagDTO : postDTO.getTags()) {
+				Tag tag = tagService.findOne(tagDTO.getId());
+				tagsToAdd.add(tag);
+			}
+			post.setTags(tagsToAdd);
 			
 			post = postService.save(post);
 			return new ResponseEntity<PostDTO>(new PostDTO(post), HttpStatus.CREATED);

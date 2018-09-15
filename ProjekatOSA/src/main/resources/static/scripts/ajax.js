@@ -35,7 +35,7 @@ var URLUndislikeComment = function(id) {return URLGetComments + id + "/undislike
 
 //user
 var URLGetUsers = basePath + "users/";
-var URLEditUser = function(id){return URLGetUsers + id};
+var URLEditUser = URLGetUsers;
 var URLCreateUser = URLGetUsers;
 
 
@@ -50,6 +50,16 @@ function makeCall(url, methodType, callback){
     dataType : "json"
  })
 }
+
+function makeDeleteCall(url, methodType, callback){
+	 return $.ajax({
+	    url : url,
+	    method : methodType,
+	    //dataType : "json"
+	 })
+}
+
+
 
 //Ajax when no json is expected, just status code, for liking disliking...
 //Spagheti
@@ -67,6 +77,21 @@ function sendData(url, methodType, object_to_send, callback){
     headers: { 
         'Accept': 'application/json',
         'Content-Type': 'application/json' 
+    },
+    dataType : "json",
+    data: object_to_send
+ })
+}
+
+//SA CSRF Tokenom, ali proveri jos 
+function changeUser(url, methodType, object_to_send, callback){
+	return $.ajax({
+    url : url,
+    method : methodType,
+    headers: {
+    	'Accept': 'application/json',
+        'Content-Type': 'application/json',
+    	"X-CSRFToken": getCookie("csrftoken")
     },
     dataType : "json",
     data: object_to_send
@@ -142,6 +167,18 @@ function getQueryVariable()
        return urlSplit[urlSplit.length-1];
 }
 
+function getCookie(c_name) {
+    if(document.cookie.length > 0) {
+        c_start = document.cookie.indexOf(c_name + "=");
+        if(c_start != -1) {
+            c_start = c_start + c_name.length + 1;
+            c_end = document.cookie.indexOf(";", c_start);
+            if(c_end == -1) c_end = document.cookie.length;
+            return unescape(document.cookie.substring(c_start,c_end));
+        }
+    }
+    return "";
+}
 
 /*
 //Example:
